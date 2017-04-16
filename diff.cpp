@@ -1,5 +1,9 @@
 #include "diff.hpp"
 
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+
 diff::diff(const std::vector<std::string> sequence_a, 
     const std::vector<std::string> sequence_b)
 {
@@ -46,14 +50,16 @@ void diff::compute_diff_rec(int32_t curr_index_a, int32_t curr_index_b)
             >= this->lcs_table[curr_index_a - 1][curr_index_b]))
     {
         compute_diff_rec(curr_index_a, curr_index_b - 1);
-        std::cout << "+" + this->sequence_b[curr_index_b];
+        std::cout << GREEN << "+" << this->sequence_b[curr_index_b]
+            << RESET;
     }
     else if (curr_index_a > 0 && (curr_index_b == 0 
         || this->lcs_table[curr_index_a][curr_index_b - 1]
             < this->lcs_table[curr_index_a - 1][curr_index_b]))
     {
         compute_diff_rec(curr_index_a - 1, curr_index_b);
-        std::cout << "-" + this->sequence_a[curr_index_a];
+        std::cout << RED << "-" << this->sequence_a[curr_index_a]
+            << RESET;
     }
 
     std::cout << std::endl;
